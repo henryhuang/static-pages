@@ -35,14 +35,47 @@ let phonicsLocked = false;
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-function speak(text, rate = 0.68) {
+let preferredVoice = null;
+
+function voiceScore(voice) {
+  const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
+  let score = voice.lang.toLowerCase() === 'en-us' ? 40 : voice.lang.toLowerCase().startsWith('en') ? 10 : -100;
+  const preferences = [
+    ['microsoft aria online', 180], ['google us english', 170],
+    ['ava', 145], ['samantha', 140], ['jenny', 135],
+    ['allison', 125], ['zoe', 120], ['aria', 115],
+    ['premium', 90], ['enhanced', 80], ['natural', 75]
+  ];
+  preferences.forEach(([name, points]) => {
+    if (label.includes(name)) score += points;
+  });
+  if (label.includes('espeak')) score -= 120;
+  return score;
+}
+
+function refreshPreferredVoice() {
   if (!('speechSynthesis' in window)) return;
+  preferredVoice = window.speechSynthesis.getVoices()
+    .filter(voice => voice.lang.toLowerCase().startsWith('en'))
+    .sort((a, b) => voiceScore(b) - voiceScore(a))[0] || null;
+}
+
+function speak(text, rate = 0.74) {
+  if (!('speechSynthesis' in window)) return;
+  if (!preferredVoice) refreshPreferredVoice();
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'en-US';
+  if (preferredVoice) utterance.voice = preferredVoice;
   utterance.rate = rate;
-  utterance.pitch = 1.08;
+  utterance.pitch = 1;
+  utterance.volume = 1;
   window.speechSynthesis.speak(utterance);
+}
+
+refreshPreferredVoice();
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.addEventListener('voiceschanged', refreshPreferredVoice);
 }
 
 function chime(good = true) {
@@ -102,7 +135,7 @@ function revealNextPhonicsWord(card) {
   card.querySelector('.sound-step').textContent = `${index + 1} / ${words.length}`;
   card.dataset.index = String((index + 1) % words.length);
   card.setAttribute('aria-label', `${word}. Word ${index + 1} of ${words.length}. Tap for the next word.`);
-  speak(word, .58);
+  speak(word, .68);
 }
 
 function renderShapeCards() {
@@ -210,7 +243,7 @@ $('#shapeFeedback').addEventListener('click', () => {
   if (shapeLocked) speak(shapeQuestions[shapeIndex].sentence);
 });
 $$('[data-sound]').forEach(button => button.addEventListener('click', () => revealNextPhonicsWord(button)));
-$('#phonicsWord').addEventListener('click', () => speak(phonicsWords[phonicsIndex].word, .58));
+$('#phonicsWord').addEventListener('click', () => speak(phonicsWords[phonicsIndex].word, .68));
 $$('.sound-baskets button').forEach(button => button.addEventListener('click', () => checkPhonics(button.dataset.answer)));
 $('#playAgain').addEventListener('click', () => {
   shapeIndex = 0; phonicsIndex = 0; stars = 0; updateStars(); showScreen('home');
