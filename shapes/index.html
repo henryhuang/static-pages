@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff8e8" />
+  <meta name="description" content="A playful shapes and final consonants English lesson for Susie." />
+  <title>Susie's Shape Adventure</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23ff6b81' d='M32 55S8 41 8 21C8 8 25 5 32 17 39 5 56 8 56 21 56 41 32 55 32 55Z'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sky-decor" aria-hidden="true"><span>✦</span><span>●</span><span>★</span><span>◆</span></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Go home">
+      <span class="brand-mark">S</span>
+      <span>Susie's English</span>
+    </a>
+    <div class="star-counter" aria-live="polite"><span>⭐</span> <strong id="starCount">0</strong> / 10</div>
+  </header>
+
+  <main>
+    <section class="hero screen active" id="home" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">LESSON 3 · SHAPES</p>
+        <h1 id="heroTitle">Let's go on a<br><span>shape adventure!</span></h1>
+        <p class="hero-sub">和小兔 Poppy 一起找形状、说句子，再挑战结尾音 /k/ 和 /g/。</p>
+        <button class="primary big" data-go="learn">Start adventure <span>→</span></button>
+        <button class="text-button" id="resetProgress">重新开始</button>
+      </div>
+
+      <div class="mascot-stage" aria-label="Poppy the cartoon rabbit holding a star">
+        <div class="speech-bubble">Hi, Susie!<br><strong>Ready?</strong></div>
+        <svg class="mascot" viewBox="0 0 380 430" role="img" aria-label="A cheerful rabbit mascot">
+          <ellipse cx="196" cy="404" rx="126" ry="18" fill="#d9cdbd" opacity=".45"/>
+          <path d="M115 89C88 32 104 7 130 18c28 12 37 66 31 101" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M236 102c7-64 33-90 57-74 25 17-1 72-27 105" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M119 70c-10-29-5-42 5-41 12 2 22 36 25 61" fill="#ff8b9b"/>
+          <path d="M259 84c10-32 22-48 31-42 10 8-4 38-20 59" fill="#ff8b9b"/>
+          <path d="M111 192c-13-68 28-108 91-106 70 2 105 49 91 116-9 47-35 80-91 82-59 2-82-40-91-92Z" fill="#f6c797" stroke="#483d56" stroke-width="7"/>
+          <ellipse cx="154" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <ellipse cx="245" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <circle cx="149" cy="169" r="3" fill="white"/><circle cx="240" cy="169" r="3" fill="white"/>
+          <path d="M188 192q13-11 26 0-4 17-13 17t-13-17Z" fill="#dc6d76" stroke="#483d56" stroke-width="4"/>
+          <path d="M201 208q-4 24-27 20m27-20q4 24 27 20" fill="none" stroke="#483d56" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="132" cy="209" r="16" fill="#f28c91" opacity=".55"/><circle cx="269" cy="209" r="16" fill="#f28c91" opacity=".55"/>
+          <path d="M143 277c37-21 84-21 119 1l20 111H121Z" fill="#53c4ba" stroke="#483d56" stroke-width="7"/>
+          <path d="M154 292l45 39 48-39" fill="#fff7df" stroke="#483d56" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M126 299c-25 15-37 39-30 56 8 18 34 8 61-15m107-37c30 11 50 34 45 52-6 19-33 11-63-10" fill="#f6c797" stroke="#483d56" stroke-width="7" stroke-linecap="round"/>
+          <path d="M199 273l15 31 35 5-25 24 6 35-31-17-31 17 6-35-25-24 35-5Z" fill="#ffd84d" stroke="#483d56" stroke-width="7" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="screen lesson" id="learn" aria-labelledby="learnTitle">
+      <div class="section-heading">
+        <button class="back" data-go="home" aria-label="Back">←</button>
+        <div><p class="eyebrow">STEP 1</p><h2 id="learnTitle">Meet the shapes</h2><p>点一点，听听每个形状怎么读。</p></div>
+      </div>
+      <div class="shape-grid" id="shapeGrid"></div>
+      <div class="lesson-tip"><span>💡</span><p><strong>points</strong> 是“尖角”。A star has five points.</p></div>
+      <button class="primary next" data-go="shapesQuiz">I'm ready! <span>→</span></button>
+    </section>
+
+    <section class="screen lesson quiz-screen" id="shapesQuiz" aria-labelledby="shapeQuizTitle">
+      <div class="section-heading">
+        <button class="back" data-go="learn" aria-label="Back">←</button>
+        <div><p class="eyebrow">STEP 2</p><h2 id="shapeQuizTitle">What shape is it?</h2><p>看图选择正确答案，再把完整句子读出来。</p></div>
+      </div>
+      <div class="progress"><span id="shapeProgress"></span></div>
+      <div class="quiz-card">
+        <button class="sound-button" id="speakQuestion" aria-label="Read question aloud">🔊</button>
+        <div class="object-art" id="objectArt" aria-hidden="true"></div>
+        <p class="question" id="shapeQuestion"></p>
+        <div class="answers" id="shapeAnswers"></div>
+        <div class="feedback" id="shapeFeedback" aria-live="polite"></div>
+        <button class="primary next-question hidden" id="nextShape">Next <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="screen lesson" id="phonicsIntro" aria-labelledby="phonicsTitle">
+      <div class="section-heading">
+        <button class="back" data-go="shapesQuiz" aria-label="Back">←</button>
+        <div><p class="eyebrow">STEP 3 · PHONICS</p><h2 id="phonicsTitle">Listen to the last sound</h2><p>听单词最后一个音：是 /k/ 还是 /g/？</p></div>
+      </div>
+      <div class="sound-lesson">
+        <button class="sound-card k" data-sound="k" aria-label="K sound. Tap to reveal the first word.">
+          <span class="sound-letter">K</span>
+          <strong>/k/</strong>
+          <span class="sound-word" aria-live="polite">点一下，出现第一个单词</span>
+          <span class="sound-step">准备好了吗？</span>
+          <span class="listen">Tap for the next word 🔊</span>
+        </button>
+        <button class="sound-card g" data-sound="g" aria-label="G sound. Tap to reveal the first word.">
+          <span class="sound-letter">G</span>
+          <strong>/g/</strong>
+          <span class="sound-word" aria-live="polite">点一下，出现第一个单词</span>
+          <span class="sound-step">准备好了吗？</span>
+          <span class="listen">Tap for the next word 🔊</span>
+        </button>
+      </div>
+      <button class="primary next" data-go="phonicsQuiz">Try the sound game <span>→</span></button>
+    </section>
+
+    <section class="screen lesson quiz-screen" id="phonicsQuiz" aria-labelledby="phonicsQuizTitle">
+      <div class="section-heading">
+        <button class="back" data-go="phonicsIntro" aria-label="Back">←</button>
+        <div><p class="eyebrow">FINAL CHALLENGE</p><h2 id="phonicsQuizTitle">Catch the last sound!</h2><p>点喇叭听单词，然后把它放进正确的音篮。</p></div>
+      </div>
+      <div class="progress"><span id="phonicsProgress"></span></div>
+      <div class="phonics-game">
+        <button class="word-orb" id="phonicsWord"><span>🔊</span><strong></strong><small>tap to hear</small></button>
+        <div class="sound-baskets">
+          <button data-answer="k"><b>/k/</b><span>K sound</span></button>
+          <button data-answer="g"><b>/g/</b><span>G sound</span></button>
+        </div>
+        <div class="feedback" id="phonicsFeedback" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="screen finish" id="finish" aria-labelledby="finishTitle">
+      <div class="confetti" aria-hidden="true">★ ◆ ♥ ● ★ ◆</div>
+      <div class="finish-mascot">🐰</div>
+      <p class="eyebrow">ADVENTURE COMPLETE!</p>
+      <h2 id="finishTitle">Amazing, Susie!</h2>
+      <p>You found the shapes and caught the sounds.</p>
+      <div class="final-stars">⭐⭐⭐⭐⭐</div>
+      <p class="final-sentence">“The starfish is a star.”</p>
+      <button class="primary big" id="playAgain">Play again ↻</button>
+    </section>
+  </main>
+
+  <footer>Made for little learners · Tap 🔊 to hear English</footer>
+  <script src="app.js"></script>
+</body>
+</html>
