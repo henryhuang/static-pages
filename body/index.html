@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff8e8" />
+  <meta name="description" content="和 Poppy 一起学习身体部位、动作和英语问答。" />
+  <title>Susie's Body Adventure</title>
+  <script>
+    if (/^https?:$/.test(location.protocol) && location.pathname.replace(/\/+$/, '').endsWith('/body')) {
+      const base = document.createElement('base');
+      base.href = location.pathname.replace(/\/+$/, '') + '/';
+      document.head.append(base);
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sky-decor" aria-hidden="true"><span>✦</span><span>●</span><span>★</span><span>◆</span></div>
+  <header class="topbar">
+    <a class="brand" href="../index.html" aria-label="回到酥酥的学习小屋"><span class="brand-mark">S</span><span>Susie's English</span></a>
+    <div class="star-counter" aria-live="polite">⭐ <strong id="stars">0</strong> / 10</div>
+  </header>
+  <main>
+    <section class="screen hero active" id="home" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">LESSON 4 · MY BODY</p>
+        <h1 id="heroTitle">Let's move<br><span>our bodies!</span></h1>
+        <p class="hero-sub">和小兔 Poppy 认识身体部位，动一动、数一数，再听听单词最后的声音。</p>
+        <button class="primary big" data-go="words">Start adventure →</button>
+      </div>
+      <div class="mascot-stage" aria-label="小兔 Poppy 欢迎酥酥">
+        <div class="speech-bubble">Hi, Susie!<br><strong>Let's move!</strong></div>
+        <svg class="mascot" viewBox="0 0 380 430" role="img" aria-label="A cheerful rabbit mascot">
+          <ellipse cx="196" cy="404" rx="126" ry="18" fill="#d9cdbd" opacity=".45"/>
+          <path d="M115 89C88 32 104 7 130 18c28 12 37 66 31 101" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M236 102c7-64 33-90 57-74 25 17-1 72-27 105" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M119 70c-10-29-5-42 5-41 12 2 22 36 25 61" fill="#ff8b9b"/>
+          <path d="M259 84c10-32 22-48 31-42 10 8-4 38-20 59" fill="#ff8b9b"/>
+          <path d="M111 192c-13-68 28-108 91-106 70 2 105 49 91 116-9 47-35 80-91 82-59 2-82-40-91-92Z" fill="#f6c797" stroke="#483d56" stroke-width="7"/>
+          <ellipse cx="154" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <ellipse cx="245" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <circle cx="149" cy="169" r="3" fill="white"/><circle cx="240" cy="169" r="3" fill="white"/>
+          <path d="M188 192q13-11 26 0-4 17-13 17t-13-17Z" fill="#dc6d76" stroke="#483d56" stroke-width="4"/>
+          <path d="M201 208q-4 24-27 20m27-20q4 24 27 20" fill="none" stroke="#483d56" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="132" cy="209" r="16" fill="#f28c91" opacity=".55"/><circle cx="269" cy="209" r="16" fill="#f28c91" opacity=".55"/>
+          <path d="M143 277c37-21 84-21 119 1l20 111H121Z" fill="#53c4ba" stroke="#483d56" stroke-width="7"/>
+          <path d="M154 292l45 39 48-39" fill="#fff7df" stroke="#483d56" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M126 299c-25 15-37 39-30 56 8 18 34 8 61-15m107-37c30 11 50 34 45 52-6 19-33 11-63-10" fill="#f6c797" stroke="#483d56" stroke-width="7" stroke-linecap="round"/>
+          <path d="M199 273l15 31 35 5-25 24 6 35-31-17-31 17 6-35-25-24 35-5Z" fill="#ffd84d" stroke="#483d56" stroke-width="7" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </section>
+    <section class="screen lesson" id="words" aria-labelledby="wordsTitle">
+      <div class="section-heading"><button class="back" data-go="home" aria-label="返回">←</button><div><p class="eyebrow">STEP 1 · BODY WORDS</p><h2 id="wordsTitle">Meet your body</h2><p>点卡片，听发音；一次认识一个词。</p></div></div>
+      <div class="paper word-stage" aria-live="polite">
+        <div class="word-illustration" id="wordArt" aria-hidden="true"></div>
+        <div class="word-meta"><span class="small-count" id="wordCount"></span><h3 id="wordText"></h3><p id="wordZh"></p><button class="sound" id="hearWord" aria-label="重听这个词">🔊 再听一次</button></div>
+      </div>
+      <button class="primary next" id="nextWord">Next word →</button>
+    </section>
+    <section class="screen lesson" id="actions" aria-labelledby="actionsTitle">
+      <div class="section-heading"><button class="back" data-go="words" aria-label="返回">←</button><div><p class="eyebrow">STEP 2 · MOVE WITH POPPY</p><h2 id="actionsTitle">Move your body!</h2><p>听 Poppy 说，和爸爸妈妈一起做动作。</p></div></div>
+      <div class="paper activity" aria-live="polite">
+        <span class="small-count" id="actionCount"></span><div class="action-art" id="actionArt" aria-hidden="true"></div><h3 id="actionText"></h3><p id="actionZh"></p>
+        <button class="sound" id="hearAction">🔊 听指令</button>
+        <button class="primary" id="didAction">我做到了！ ⭐</button>
+      </div>
+    </section>
+    <section class="screen lesson" id="counting" aria-labelledby="countTitle">
+      <div class="section-heading"><button class="back" data-go="actions" aria-label="返回">←</button><div><p class="eyebrow">STEP 3 · HOW MANY?</p><h2 id="countTitle">Let's count!</h2><p>听问题，选数字，再一起说完整句子。</p></div></div>
+      <div class="progress" aria-label="问答进度"><span id="countProgress"></span></div>
+      <div class="paper quiz">
+        <span class="small-count" id="quizCount"></span><div class="quiz-art" id="quizArt" aria-hidden="true"></div>
+        <button class="question-button" id="hearQuestion" aria-label="重听问题">🔊 <span id="question"></span></button>
+        <div class="answers" id="answers"></div><div class="feedback" id="countFeedback" aria-live="polite"></div>
+        <button class="sound hidden" id="hearAnswer">🔊 再听完整答案</button>
+        <button class="primary hidden" id="nextQuestion">Next →</button>
+      </div>
+    </section>
+    <section class="screen lesson" id="phonics" aria-labelledby="phonicsTitle">
+      <div class="section-heading"><button class="back" data-go="counting" aria-label="返回">←</button><div><p class="eyebrow">STEP 4 · PHONICS REVIEW</p><h2 id="phonicsTitle">Catch the last sound!</h2><p>听单词，找找最后一个辅音。每次只出现一个词。</p></div></div>
+      <div class="progress"><span id="phonicsProgress"></span></div>
+      <div class="paper quiz">
+        <span class="small-count" id="phonicsCount"></span><button class="word-orb" id="hearPhonics" aria-label="听单词"><span>🔊</span><strong id="phonicsWord"></strong><small>点我重听</small></button>
+        <div class="answers sounds" id="soundAnswers"></div><div class="feedback" id="phonicsFeedback" aria-live="polite"></div>
+        <button class="primary hidden" id="nextPhonics">Next →</button>
+      </div>
+    </section>
+    <section class="screen finish" id="finish" aria-labelledby="finishTitle">
+      <p class="eyebrow">ADVENTURE COMPLETE!</p><h2 id="finishTitle">Amazing, Susie!</h2>
+      <p>你会说身体部位、做动作、数一数啦！</p>
+      <div class="finish-poppy"><svg class="mascot" viewBox="0 0 380 430" role="img" aria-label="A cheerful rabbit mascot">
+          <ellipse cx="196" cy="404" rx="126" ry="18" fill="#d9cdbd" opacity=".45"/>
+          <path d="M115 89C88 32 104 7 130 18c28 12 37 66 31 101" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M236 102c7-64 33-90 57-74 25 17-1 72-27 105" fill="#f5b886" stroke="#483d56" stroke-width="7"/>
+          <path d="M119 70c-10-29-5-42 5-41 12 2 22 36 25 61" fill="#ff8b9b"/>
+          <path d="M259 84c10-32 22-48 31-42 10 8-4 38-20 59" fill="#ff8b9b"/>
+          <path d="M111 192c-13-68 28-108 91-106 70 2 105 49 91 116-9 47-35 80-91 82-59 2-82-40-91-92Z" fill="#f6c797" stroke="#483d56" stroke-width="7"/>
+          <ellipse cx="154" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <ellipse cx="245" cy="174" rx="10" ry="14" fill="#483d56"/>
+          <circle cx="149" cy="169" r="3" fill="white"/><circle cx="240" cy="169" r="3" fill="white"/>
+          <path d="M188 192q13-11 26 0-4 17-13 17t-13-17Z" fill="#dc6d76" stroke="#483d56" stroke-width="4"/>
+          <path d="M201 208q-4 24-27 20m27-20q4 24 27 20" fill="none" stroke="#483d56" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="132" cy="209" r="16" fill="#f28c91" opacity=".55"/><circle cx="269" cy="209" r="16" fill="#f28c91" opacity=".55"/>
+          <path d="M143 277c37-21 84-21 119 1l20 111H121Z" fill="#53c4ba" stroke="#483d56" stroke-width="7"/>
+          <path d="M154 292l45 39 48-39" fill="#fff7df" stroke="#483d56" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M126 299c-25 15-37 39-30 56 8 18 34 8 61-15m107-37c30 11 50 34 45 52-6 19-33 11-63-10" fill="#f6c797" stroke="#483d56" stroke-width="7" stroke-linecap="round"/>
+          <path d="M199 273l15 31 35 5-25 24 6 35-31-17-31 17 6-35-25-24 35-5Z" fill="#ffd84d" stroke="#483d56" stroke-width="7" stroke-linejoin="round"/>
+        </svg></div><div class="final-stars" aria-hidden="true">⭐⭐⭐⭐⭐</div>
+      <button class="primary big" id="replay">Play again ↻</button>
+    </section>
+  </main>
+  <footer>Made for Susie · Tap 🔊 to hear English</footer>
+  <script src="app.js"></script>
+</body>
+</html>
