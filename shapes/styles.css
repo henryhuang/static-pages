@@ -157,3 +157,57 @@ footer { min-height: 60px; text-align: center; color: #948b99; font-size: 13px; 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition: none !important; }
 }
+
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.fullscreen-button { min-height: 44px; padding: 9px 14px; border: 2px solid #e9ddcb; border-radius: 15px; background: white; box-shadow: 0 5px 0 #e9ddcb; font-weight: 900; cursor: pointer; }
+.fullscreen-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #e9ddcb; }
+.fullscreen-button span:first-child { margin-right: 5px; font-size: 19px; }
+html.study-fullscreen body { min-height: 100dvh; }
+html.study-fullscreen .topbar { min-height: 62px; }
+html.study-fullscreen .screen { min-height: calc(100dvh - 62px); }
+html.study-fullscreen .hero { padding: 8px 0; gap: 10px; }
+html.study-fullscreen .hero h1 { font-size: clamp(42px, 7vw, 66px); margin-bottom: 12px; }
+html.study-fullscreen .hero-sub { margin: 8px 0; font-size: 17px; }
+html.study-fullscreen .hero .primary.big { margin-top: 8px; }
+html.study-fullscreen .hero .mascot-stage { width: min(330px, 38vh); }
+html.study-fullscreen .lesson { padding: 8px 0 14px; }
+html.study-fullscreen .section-heading { margin-bottom: 10px; }
+html.study-fullscreen .section-heading h2 { font-size: clamp(30px, 5vw, 46px); margin-bottom: 5px; }
+html.study-fullscreen .section-heading p:last-child { font-size: 15px; }
+html.study-fullscreen .shape-grid { gap: 10px; }
+html.study-fullscreen .shape-card { min-height: 150px; padding: 10px 7px; }
+html.study-fullscreen .shape-card .shape { width: 75px; height: 75px; margin-bottom: 6px; transform: scale(.82); }
+html.study-fullscreen .lesson-tip { margin-top: 10px; padding: 9px 14px; }
+html.study-fullscreen .next { margin-top: 12px; }
+html.study-fullscreen .quiz-card { min-height: 0; padding: 16px 22px; }
+html.study-fullscreen .object-art { min-height: 110px; font-size: 88px; }
+html.study-fullscreen .question { margin: 2px 0 12px; }
+html.study-fullscreen .feedback { min-height: 42px; padding-top: 8px; }
+html.study-fullscreen .sound-lesson { margin: 0 auto; gap: 14px; }
+html.study-fullscreen .sound-card { min-height: 230px; padding: 16px; }
+html.study-fullscreen .sound-letter { width: 80px; height: 80px; font-size: 54px; }
+html.study-fullscreen .word-orb { width: min(22vh, 165px); height: min(22vh, 165px); }
+html.study-fullscreen .sound-baskets { margin-top: 18px; }
+html.study-fullscreen .finish { min-height: calc(100dvh - 62px); padding-bottom: 15px; }
+html.study-fullscreen .finish-mascot { font-size: 74px; }
+html.study-fullscreen footer { display: none; }
+@media (max-width: 520px) {
+  .fullscreen-label { display: none; }
+  .fullscreen-button { width: 46px; padding: 7px; }
+  .fullscreen-button span:first-child { margin: 0; }
+  .star-counter { padding: 9px 12px; }
+  .top-actions { gap: 7px; }
+  html.study-fullscreen .section-heading .eyebrow { margin-bottom: 4px; }
+  html.study-fullscreen .section-heading p:last-child { display: none; }
+  html.study-fullscreen .back { width: 44px; height: 44px; }
+  html.study-fullscreen .shape-grid { grid-template-columns: repeat(3, 1fr); }
+  html.study-fullscreen .shape-card { min-height: 120px; }
+  html.study-fullscreen .shape-card:last-child { grid-column: auto; width: auto; }
+  html.study-fullscreen .shape-card strong { font-size: 15px; }
+  html.study-fullscreen .shape-card small { font-size: 12px; }
+  html.study-fullscreen .lesson-tip { font-size: 13px; }
+  html.study-fullscreen .quiz-card { min-height: 0; }
+  html.study-fullscreen .answers { grid-template-columns: repeat(3, 1fr); }
+  html.study-fullscreen .answer { min-height: 52px; }
+  html.study-fullscreen .sound-card { min-height: 205px; }
+}
