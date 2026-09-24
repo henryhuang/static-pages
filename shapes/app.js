@@ -36,6 +36,37 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 let preferredVoice = null;
+const fullscreenButton = $('#fullscreenButton');
+
+function nativeFullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+
+function updateFullscreenButton(active) {
+  document.documentElement.classList.toggle('study-fullscreen', active);
+  fullscreenButton.setAttribute('aria-pressed', String(active));
+  fullscreenButton.setAttribute('aria-label', active ? '退出全屏学习' : '进入全屏学习');
+  fullscreenButton.querySelector('[aria-hidden]').textContent = active ? '↙' : '⛶';
+  fullscreenButton.querySelector('.fullscreen-label').textContent = active ? '退出' : '全屏';
+}
+
+async function toggleFullscreen() {
+  if (nativeFullscreenElement()) {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if (exit) await exit.call(document);
+    updateFullscreenButton(false);
+    return;
+  }
+  const enter = document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen;
+  if (enter) {
+    try {
+      await enter.call(document.documentElement);
+      updateFullscreenButton(true);
+      return;
+    } catch (_) {}
+  }
+  updateFullscreenButton(!document.documentElement.classList.contains('study-fullscreen'));
+}
 
 function voiceScore(voice) {
   const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
@@ -251,6 +282,9 @@ $('#playAgain').addEventListener('click', () => {
 $('#resetProgress').addEventListener('click', () => {
   shapeIndex = 0; phonicsIndex = 0; stars = 0; updateStars();
 });
+fullscreenButton.addEventListener('click', toggleFullscreen);
+document.addEventListener('fullscreenchange', () => updateFullscreenButton(Boolean(nativeFullscreenElement())));
+document.addEventListener('webkitfullscreenchange', () => updateFullscreenButton(Boolean(nativeFullscreenElement())));
 
 renderShapeCards();
 updateStars();
