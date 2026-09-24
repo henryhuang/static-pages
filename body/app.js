@@ -29,7 +29,8 @@ const phonics=[
 let wordIndex=0,actionIndex=0,questionIndex=0,phonicsIndex=0,stars=0;
 let questionSolved=false,phonicsSolved=false,actionAwarded=false;
 const rewardedQuestions=new Set(),rewardedSounds=new Set();
-let preferredVoice=null;
+let preferredVoice=null,activeUtterance=null,activeAudio=null;
+const isAndroid=/Android/i.test(navigator.userAgent);
 const fullscreenButton=$('#fullscreenButton');
 function nativeFullscreenElement(){return document.fullscreenElement||document.webkitFullscreenElement||null}
 function updateFullscreenButton(active){
@@ -62,14 +63,32 @@ function refreshVoice(){
   if(!('speechSynthesis' in window))return;
   preferredVoice=window.speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith('en')).sort((a,b)=>voiceScore(b)-voiceScore(a))[0]||null;
 }
-function speak(text,rate=.74){
+function speakWithSystem(text,rate=.74){
   if(!('speechSynthesis' in window))return;
   if(!preferredVoice)refreshVoice();
   window.speechSynthesis.cancel();
+  window.speechSynthesis.resume();
   const utterance=new SpeechSynthesisUtterance(text);
   utterance.lang='en-US';if(preferredVoice)utterance.voice=preferredVoice;
   utterance.rate=rate;utterance.pitch=1;
+  activeUtterance=utterance;
+  utterance.onend=()=>{activeUtterance=null};
+  utterance.onerror=()=>{activeUtterance=null};
   window.speechSynthesis.speak(utterance);
+}
+function speakWithOnlineAudio(text,rate=.74){
+  if(activeAudio){activeAudio.pause();activeAudio.currentTime=0}
+  const cleanText=text.replace(/[.,!?;:“”"]/g,'').trim();
+  activeAudio=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(cleanText)+'&type=2');
+  activeAudio.preload='auto';
+  activeAudio.playbackRate=rate<=.69?.82:.92;
+  const playback=activeAudio.play();
+  if(playback)playback.catch(()=>speakWithSystem(text,rate));
+}
+function speak(text,rate=.74){
+  if(activeAudio){activeAudio.pause();activeAudio=null}
+  if(isAndroid){speakWithOnlineAudio(text,rate);return}
+  speakWithSystem(text,rate);
 }
 refreshVoice();
 if('speechSynthesis' in window)window.speechSynthesis.addEventListener('voiceschanged',refreshVoice);
