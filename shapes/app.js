@@ -36,6 +36,9 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 let preferredVoice = null;
+let activeUtterance = null;
+let activeAudio = null;
+const isAndroid = /Android/i.test(navigator.userAgent);
 const fullscreenButton = $('#fullscreenButton');
 
 function nativeFullscreenElement() {
@@ -91,17 +94,46 @@ function refreshPreferredVoice() {
     .sort((a, b) => voiceScore(b) - voiceScore(a))[0] || null;
 }
 
-function speak(text, rate = 0.74) {
+function speakWithSystem(text, rate = 0.74) {
   if (!('speechSynthesis' in window)) return;
   if (!preferredVoice) refreshPreferredVoice();
   window.speechSynthesis.cancel();
+  window.speechSynthesis.resume();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'en-US';
   if (preferredVoice) utterance.voice = preferredVoice;
   utterance.rate = rate;
   utterance.pitch = 1;
   utterance.volume = 1;
+  activeUtterance = utterance;
+  utterance.onend = () => { activeUtterance = null; };
+  utterance.onerror = () => { activeUtterance = null; };
   window.speechSynthesis.speak(utterance);
+}
+
+function speakWithOnlineAudio(text, rate = 0.74) {
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio.currentTime = 0;
+  }
+  const cleanText = text.replace(/[.,!?;:“”"]/g, '').trim();
+  activeAudio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(cleanText) + '&type=2');
+  activeAudio.preload = 'auto';
+  activeAudio.playbackRate = rate <= 0.69 ? 0.82 : 0.92;
+  const playback = activeAudio.play();
+  if (playback) playback.catch(() => speakWithSystem(text, rate));
+}
+
+function speak(text, rate = 0.74) {
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio = null;
+  }
+  if (isAndroid) {
+    speakWithOnlineAudio(text, rate);
+    return;
+  }
+  speakWithSystem(text, rate);
 }
 
 refreshPreferredVoice();
