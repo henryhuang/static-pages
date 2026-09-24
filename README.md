@@ -5,6 +5,7 @@
 ## Pages
 
 - [shapes](./shapes/) — Susie's English Shapes & Phonics
+- [body](./body/) — Lesson 4: My Body
 
 ## 目录约定
 
